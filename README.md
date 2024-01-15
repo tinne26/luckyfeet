@@ -1,6 +1,6 @@
 # Lucky Feet
 
-Entry for [Ebitengine's Holiday Hack](https://itch.io/jam/ebitengine-holiday-hack-2023) (December 23rd 2023 to January 15th 2024). Can be played directly through the browser [here on itch.io](https://tinne26.itch.io/luckyfeet) or downloaded [here](https://github.com/tinne26/luckyfeet/releases/tag/v0.0.1).
+Entry for [Ebitengine's Holiday Hack](https://itch.io/jam/ebitengine-holiday-hack-2023) (December 23rd 2023 to January 15th 2024). Can be played directly on the browser at [tinne26.github.io/luckyfeet](https://tinne26.github.io/luckyfeet) or downloaded through [github releases](https://github.com/tinne26/luckyfeet/releases/tag/v0.0.1). It's also available through [itch.io](https://tinne26.itch.io/luckyfeet).
 
 ![cover](https://github.com/tinne26/luckyfeet/assets/95440833/d6a26142-1348-4f53-ab6a-6a35b561aad4)
 
@@ -12,7 +12,7 @@ One might wonder why I'm so dumb, but I train really hard for it.
 
 Gamepad or keyboard (WASD + SPACE + IOP). The controls are more detailed within the game itself, search for it on the menus.
 
-If you don't understand why your double jump sometimes works and sometimes doesn't... it's because it's not a double jump, but a tic-tac.
+There's a tic-tac mechanic (see parkour). If you are on the main layer (light brown), you can tic-tac on the back layer (gray). If you are on the front layer (dark brown), you can tic-tac on the main layer. You can't go through walls on the same layer, but can go in front/behind other layers.
 
 # Known Issues
 
@@ -28,3 +28,7 @@ Code is licensed under the MIT license. Assets are licensed under [CC BY 4.0](ht
 
 - Thanks to [kettek](https://github.com/kettek) for organizing the game jam.
 - As always, thanks to Hajime Hoshi for creating and developing Ebitengine.
+
+# More
+
+Need more? Check some [extra levels](https://github.com/tinne26/luckyfeet/tree/main/levels).
