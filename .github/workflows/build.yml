@@ -1,0 +1,50 @@
+name: build static binaries
+on: [workflow_dispatch]
+jobs:
+   build-linux:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+           go-version: '1.21'
+      - name: install dependencies
+        shell: bash
+        run: sudo apt-get -y install libgl1-mesa-dev xorg-dev libasound2-dev
+      - name: build linux static binary
+        run: go build -o lucky-linux-64bits -trimpath -ldflags "-w -s" main.go
+      - name: upload linux static binary
+        uses: actions/upload-artifact@v3
+        with:
+           name: lucky-linux-64bits
+           path: lucky-linux-64bits
+
+   build-windows:
+      runs-on: windows-latest
+      steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+           go-version: '1.21'
+      - name: build windows static binary
+        run: go build -o lucky-windows-64bits.exe -trimpath -ldflags "-w -s -H windowsgui" main.go
+      - name: upload windows static binary
+        uses: actions/upload-artifact@v3
+        with:
+           name: lucky-windows-64bits.exe
+           path: lucky-windows-64bits.exe
+  
+   build-macos:
+      runs-on: macos-latest
+      steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+           go-version: '1.21'
+      - name: build macos static binary
+        run: go build -o lucky-macos-64bits -trimpath -ldflags "-w -s" main.go
+      - name: upload macos static binary
+        uses: actions/upload-artifact@v3
+        with:
+           name: lucky-macos-64bits
+           path: lucky-macos-64bits
