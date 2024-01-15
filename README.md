@@ -1,6 +1,8 @@
 # Lucky Feet
 
-Entry for [Ebitengine's Holiday Hack](https://itch.io/jam/ebitengine-holiday-hack-2023) (December 23rd 2023 to January 15th 2024). Can be played directly through the browser [here]() or downloaded [here]().
+Entry for [Ebitengine's Holiday Hack](https://itch.io/jam/ebitengine-holiday-hack-2023) (December 23rd 2023 to January 15th 2024). Can be played directly through the browser [here on itch.io](https://tinne26.itch.io/luckyfeet) or downloaded [here](https://github.com/tinne26/luckyfeet/releases/tag/v0.0.1).
+
+![cover](https://github.com/tinne26/luckyfeet/assets/95440833/d6a26142-1348-4f53-ab6a-6a35b561aad4)
 
 I had trouble with motivation, so I only tried to get something working. I wanted to approach the game making a few design choices intentionally contrary to what I'd normally do... and it's been bad. Single screen platformer, lively tone, flat pixel art, what you see is what it is, etc. It's not bad as "what a terrible game", but the feeling was "I don't want to keep developing this any more".
 
