@@ -1,6 +1,6 @@
 # Lucky Feet
 
-Entry for [Ebitengine's Holiday Hack](https://itch.io/jam/ebitengine-holiday-hack-2023) (December 23rd 2023 to January 15th 2024). Can be played directly on the browser at [tinne26.github.io/luckyfeet](https://tinne26.github.io/luckyfeet) or downloaded through [github releases](https://github.com/tinne26/luckyfeet/releases/tag/v0.0.1). It's also available through [itch.io](https://tinne26.itch.io/luckyfeet).
+Entry for [Ebitengine's Holiday Hack](https://itch.io/jam/ebitengine-holiday-hack-2023) (December 23rd 2023 to January 15th 2024). Can be played directly on the browser at [tinne26.github.io/luckyfeet](https://tinne26.github.io/luckyfeet) or downloaded through [github releases](https://github.com/tinne26/luckyfeet/releases/tag/v0.0.2). It's also available through [itch.io](https://tinne26.itch.io/luckyfeet).
 
 ![cover](https://github.com/tinne26/luckyfeet/assets/95440833/d6a26142-1348-4f53-ab6a-6a35b561aad4)
 
