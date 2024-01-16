@@ -66,8 +66,8 @@ func (self *Player) Update(ctx *context.Context, carrots *carrot.Inventory, tile
 		if dir == in.DirNone {
 			if self.detectAndProcessFalling(ctx, carrots, tilemap) { break }
 			slipX := self.detectSlip(ctx, carrots, tilemap)
-			if slipX != self.x { self.slipTowards(ctx, carrots, tilemap, slipX) }
-		} else {
+			if slipX != self.x { self.slipTowardsOrStartJump(ctx, carrots, tilemap, slipX) }
+		} else if !ctx.Input.Trigger(in.ActionJump) {
 			self.changeState(ctx, StRunning, ctx.Animations.Running)
 			self.applyRunningMotion(ctx, carrots, tilemap) // includes falling/slip detection too
 		}
@@ -229,7 +229,7 @@ func (self *Player) applyRunningMotion(ctx *context.Context, carrots *carrot.Inv
 	case in.DirLeft:
 		slipX := self.detectSlip(ctx, carrots, tilemap)
 		if slipX > self.x {
-			self.slipTowards(ctx, carrots, tilemap, slipX)
+			self.slipTowardsOrStartJump(ctx, carrots, tilemap, slipX)
 			return
 		}
 
@@ -246,7 +246,7 @@ func (self *Player) applyRunningMotion(ctx *context.Context, carrots *carrot.Inv
 	case in.DirRight:
 		slipX := self.detectSlip(ctx, carrots, tilemap)
 		if slipX < self.x {
-			self.slipTowards(ctx, carrots, tilemap, slipX)
+			self.slipTowardsOrStartJump(ctx, carrots, tilemap, slipX)
 			return
 		}
 
@@ -513,16 +513,19 @@ func (self *Player) detectSlip(ctx *context.Context, carrots *carrot.Inventory, 
 
 // Slips towards the given x, which must be at dist <= 1.0 from self.x.
 // It automatically detects collisions to avoid slips if necessary.
-func (self *Player) slipTowards(ctx *context.Context, carrots *carrot.Inventory, tilemap *tile.Map, slipX float64) {
+func (self *Player) slipTowardsOrStartJump(ctx *context.Context, carrots *carrot.Inventory, tilemap *tile.Map, slipX float64) {
 	// safety assertions
 	slipX = min(max(slipX, 0), 640 - CollisionWidth)
 	diff := slipX - self.x
 	if diff < 0 { diff = -diff }
 	if diff > 1.0 { panic("precondition violation") }
 
-	// only slip if we don't collide going towards slipX
+	// only slip or jump if we don't collide going towards slipX
 	if !self.detectCollisionAtX(ctx, carrots, tilemap, slipX) {
 		self.x = slipX
+		if ctx.Input.Trigger(in.ActionJump) {
+			self.changeState(ctx, StJumpingHold, ctx.Animations.Running)
+		}
 	}
 }
 

@@ -45,17 +45,21 @@ func (self *Manager[Context]) Update(ctx Context) error {
 	if change != nil {
 		switch change.Operation {
 		case ChangePush:
-			newScene := self.Registry.MustLoad(change.SceneKey, ctx)
-			self.Scenes = append(self.Scenes, newScene)
+			activeScene = self.Registry.MustLoad(change.SceneKey, ctx)
+			self.Scenes = append(self.Scenes, activeScene)
 		case ChangePop:
 			if activeIndex == 0 { panic("can't pop last remaining scene") }
 			self.Scenes = self.Scenes[0 : activeIndex]
+			activeScene = self.Scenes[activeIndex - 1]
 		case ChangeReplace:
-			newScene := self.Registry.MustLoad(change.SceneKey, ctx)
-			self.Scenes[activeIndex] = newScene
+			activeScene = self.Registry.MustLoad(change.SceneKey, ctx)
+			self.Scenes[activeIndex] = activeScene
 		default:
 			panic(change.Operation)
 		}
+
+		// must trigger update of the new scene before draw
+		activeScene.Update(ctx)
 	}
 	
 	return nil
