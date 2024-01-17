@@ -1,5 +1,6 @@
 package menu
 
+import "math"
 import "strconv"
 
 import "github.com/tinne26/luckyfeet/src/lib/scene"
@@ -123,11 +124,18 @@ func (self *PercentOption) Confirm(ctx *context.Context) (Key, *scene.Change, er
 type AudioOption struct {
 	BaseLabel string
 	GetLevel func() float32 // in [0, 1] range
-	SetLevel func(value float32) error
+	SetLevel func(ctx *context.Context, value float32) error
+	OnClick func(*context.Context)
+	pressedChanges int
 }
 func (self *AudioOption) Name() string {
-	perc := strconv.Itoa(int(max(min(self.GetLevel(), 1.0), 0.0)*100))
-	return self.BaseLabel + " " + string(text.TriangleLeftWithPad) + perc + string(text.TriangleRightWithPad)
+	level := int(math.Round(float64(self.GetLevel())*100.0))
+	if level == -100 { // (muted)
+		return self.BaseLabel + " [MUTED]"
+	} else {
+		perc := strconv.Itoa(level)
+		return self.BaseLabel + " " + string(text.TriangleLeftWithPad) + perc + string(text.TriangleRightWithPad)
+	}
 }
 func (self *AudioOption) MaxName() string {
 	return self.BaseLabel + " " + string(text.TriangleLeftWithPad) + "100" + string(text.TriangleRightWithPad)
@@ -135,19 +143,43 @@ func (self *AudioOption) MaxName() string {
 func (self *AudioOption) SoftHighlight(ctx *context.Context) bool { return false }
 func (self *AudioOption) HoverUpdate(ctx *context.Context) {
 	dir := ctx.Input.RepeatDirAs(in.RFDefault, in.RNDefault).Horz()
-	if dir == in.DirNone { return }
+	if dir == in.DirNone {
+		if ctx.Input.Dir().Horz() == in.DirNone {
+			self.pressedChanges = 0
+		}
+		return
+	}
 
-	level := self.GetLevel()
+	level := int(math.Round(float64(self.GetLevel())*100.0))
+	if level == -100 { // muted
+		self.pressedChanges = 0
+		return
+	}
+	
+	self.pressedChanges += 1
+	change := 1
+	if self.pressedChanges > 5 { change = 5 }
 	if dir == in.DirRight {
-		level += 0.01
-		if level > 1.0 { level = 1.0 }
+		if level >= 100 {
+			ctx.Audio.PlaySFX(au.SfxScratch)
+			ctx.Input.Unwind()
+			return
+		}
+		level += change
+		if level > 100 { level = 100 }
 	} else if dir == in.DirLeft {
-		level -= 0.01
+		if level <= 0 {
+			ctx.Audio.PlaySFX(au.SfxScratch)
+			ctx.Input.Unwind()
+			return
+		}
+		level -= change
 		if level < 0 { level = 0 }
 	}
 	ctx.Audio.PlaySFX(au.SfxClick)
-	self.SetLevel(level)
+	self.SetLevel(ctx, float32(level)/100.0)
 }
 func (self *AudioOption) Confirm(ctx *context.Context) (Key, *scene.Change, error) {
-	return NoConfirm, nil, nil
+	self.OnClick(ctx)
+	return NoChange, nil, nil
 }

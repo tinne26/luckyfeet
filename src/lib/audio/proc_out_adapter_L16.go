@@ -12,15 +12,18 @@ type ProcessorOutAdapterL16[Source StereoProcessor] struct {
 
 	// attenuation must be done before converting
 	// back from F32 to L16 format to avoid clipping
-	userVolume float32
-	volumeCorrectorFactor float32
+	masterVolume float32 // user configured master volume
+	userVolume float32 // user configured track volume
+	volumeCorrectorFactor float32 // internal volume adjustment
+	muted bool
 }
 
 func NewProcessorOutAdapterL16[T StereoProcessor](source T) *ProcessorOutAdapterL16[T] {
 	return &ProcessorOutAdapterL16[T]{
 		source: source,
 		buffer: make([]float32, 2048),
-		userVolume: 0.5001,
+		masterVolume: 0.7,
+		userVolume: 0.7,
 		volumeCorrectorFactor: 1.0,
 	}
 }
@@ -37,6 +40,16 @@ func (self *ProcessorOutAdapterL16[T]) SetUserVolume(volume float32) {
 	self.userVolume = volume
 }
 
+func (self *ProcessorOutAdapterL16[T]) SetMasterVolume(volume float32) {
+	if volume < 0 { panic("volume < 0") }
+	if volume > 1 { panic("volume > 1") }
+	self.masterVolume = volume
+}
+
+func (self *ProcessorOutAdapterL16[T]) SetMuted(muted bool) {
+	self.muted = muted
+}
+
 func (self *ProcessorOutAdapterL16[T]) Read(buffer []byte) (int, error) {
 	self.mutex.Lock()
 	defer self.mutex.Unlock()
@@ -46,7 +59,8 @@ func (self *ProcessorOutAdapterL16[T]) Read(buffer []byte) (int, error) {
 	if samplesToWrite == 0 { return 0, nil }
 
 	// get attenuation factor
-	att := self.userVolume*self.volumeCorrectorFactor
+	att := self.masterVolume*self.userVolume*self.volumeCorrectorFactor
+	if self.muted { att = 0 } // could be optimized separately, but it's not a big deal
 
 	// read samples into float buffer
 	samplesWritten := 0

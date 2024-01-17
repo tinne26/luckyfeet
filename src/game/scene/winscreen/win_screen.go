@@ -8,6 +8,7 @@ import "github.com/tinne26/luckyfeet/src/lib/scene"
 import "github.com/tinne26/luckyfeet/src/lib/text"
 
 import "github.com/tinne26/luckyfeet/src/game/context"
+import "github.com/tinne26/luckyfeet/src/game/utils"
 import "github.com/tinne26/luckyfeet/src/game/components/info"
 import "github.com/tinne26/luckyfeet/src/game/components/menu"
 import "github.com/tinne26/luckyfeet/src/game/material/scene/keys"
@@ -82,7 +83,7 @@ func (self *WinScreen) DrawLogical(canvas *ebiten.Image, foremost bool, ctx *con
 	bounds := canvas.Bounds()
 	x := bounds.Dx()/2
 	y := bounds.Dy()/4
-	strs := []string{ "CLEARED IN " + ctx.State.GetClearTimeStr() }
+	strs := []string{ "CLEARED IN " + utils.FmtTicksToTimeStrCents(ctx.State.LastClearTicks) }
 	text.CenterDrawAt(canvas, x, y - 4, strs, white, 4)
 	text.CenterDrawAt(canvas, x, y - 0, strs, black, 4)
 	

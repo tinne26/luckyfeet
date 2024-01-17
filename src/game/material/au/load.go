@@ -30,8 +30,8 @@ func LoadAndConfigure(soundscape *audio.Soundscape, filesys fs.FS) error {
 
 	// set volumes after having created bgms and sfxs
 	// so the changes can take effect
-	soundscape.SetUserBGMVolume(0.5)
-	soundscape.SetUserSFXVolume(0.5)
+	//soundscape.SetUserBGMVolume(0.5)
+	//soundscape.SetUserSFXVolume(0.5)
 
 	return nil
 }

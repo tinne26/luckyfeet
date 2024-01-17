@@ -80,18 +80,43 @@ func (self *Menu) NewGameOptionsOptionList(ctx *context.Context) {
 
 	opts = self.NewOptionList(OptsAudio)
 	opts.Add(&AudioOption{
-		BaseLabel: "MUSIC",
-		GetLevel: func() float32 { return ctx.Audio.GetUserBGMVolume() },
-		SetLevel: func(value float32) error {
-			ctx.Audio.SetUserBGMVolume(value)
+		BaseLabel: "MASTER",
+		GetLevel: func() float32 {
+			if ctx.Audio.GetMasterMuted() { return -1.0 }
+			return ctx.Audio.GetMasterVolume()
+		},
+		SetLevel: func(fnCtx *context.Context, value float32) error {
+			fnCtx.Audio.SetMasterVolume(value)
 			return nil
+		},
+		OnClick: func(fnCtx *context.Context) {
+			fnCtx.Audio.SetMasterMuted(!fnCtx.Audio.GetMasterMuted())
+		}})
+	opts.Add(&AudioOption{
+		BaseLabel: "MUSIC",
+		GetLevel: func() float32 {
+			if ctx.Audio.GetBGMMuted() { return -1.0 }
+			return ctx.Audio.GetUserBGMVolume()
+		},
+		SetLevel: func(fnCtx *context.Context, value float32) error {
+			fnCtx.Audio.SetUserBGMVolume(value)
+			return nil
+		},
+		OnClick: func(fnCtx *context.Context) {
+			fnCtx.Audio.SetBGMMuted(!fnCtx.Audio.GetBGMMuted())
 		}})
 	opts.Add(&AudioOption{
 		BaseLabel: "SFX",
-		GetLevel: func() float32 { return ctx.Audio.GetUserSFXVolume() },
-		SetLevel: func(value float32) error {
-			ctx.Audio.SetUserSFXVolume(value)
+		GetLevel: func() float32 {
+			if ctx.Audio.GetSFXMuted() { return -1.0 }
+			return ctx.Audio.GetUserSFXVolume()
+		},
+		SetLevel: func(fnCtx *context.Context, value float32) error {
+			fnCtx.Audio.SetUserSFXVolume(value)
 			return nil
+		},
+		OnClick: func(fnCtx *context.Context) {
+			fnCtx.Audio.SetSFXMuted(!fnCtx.Audio.GetSFXMuted())
 		}})
 	opts.AddBackOption(&NavOption{ Label: "BACK", To: Back })
 

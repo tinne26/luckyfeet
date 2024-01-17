@@ -23,6 +23,14 @@ func NewBgmFromFader(fader *Fader) *BGM {
 	}
 }
 
+func (self *BGM) SetMuted(muted bool) {
+	self.source.SetMuted(muted)
+}
+
+func (self *BGM) SetMasterVolume(factor float32) {
+	self.source.SetMasterVolume(factor)
+}
+
 func (self *BGM) SetVolumeCorrectorFactor(factor float32) {
 	self.source.SetVolumeCorrectorFactor(factor)
 }
@@ -69,7 +77,7 @@ func (self *BGM) Play() error {
 		var err error
 		self.player, err = audio.CurrentContext().NewPlayer(self.source)
 		if err != nil { return err }
-		self.player.SetBufferSize(time.Millisecond*66)
+		self.player.SetBufferSize(time.Millisecond*66) // make adjustable?
 	}
 	self.player.Play()
 	return nil
