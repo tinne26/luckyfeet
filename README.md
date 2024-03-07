@@ -4,6 +4,8 @@ Entry for [Ebitengine's Holiday Hack](https://itch.io/jam/ebitengine-holiday-hac
 
 ![cover](https://github.com/tinne26/luckyfeet/assets/95440833/d6a26142-1348-4f53-ab6a-6a35b561aad4)
 
+> I recommend using Chrome and playing the "[better tutorial](https://github.com/tinne26/luckyfeet/tree/main/levels)" level from clipboard to get started with the game; the original first screen can be particularly confusing due to the tic-tac mechanics between layers.
+
 I had trouble with motivation, so I only tried to get something working. I wanted to approach the game making a few design choices intentionally contrary to what I'd normally do... and it's been bad. Single screen platformer, lively tone, flat pixel art, what you see is what it is, etc. It's not bad as "what a terrible game", but the feeling was "I don't want to keep developing this any more".
 
 One might wonder why I'm so dumb, but I train really hard for it.
