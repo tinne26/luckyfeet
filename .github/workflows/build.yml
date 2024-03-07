@@ -4,8 +4,8 @@ jobs:
    build-linux:
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
         with:
            go-version: '1.21'
       - name: install dependencies
@@ -14,7 +14,7 @@ jobs:
       - name: build linux static binary
         run: go build -o lucky-linux-64bits -trimpath -ldflags "-w -s" main.go
       - name: upload linux static binary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
            name: lucky-linux-64bits
            path: lucky-linux-64bits
@@ -22,14 +22,14 @@ jobs:
    build-windows:
       runs-on: windows-latest
       steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
         with:
            go-version: '1.21'
       - name: build windows static binary
         run: go build -o lucky-windows-64bits.exe -trimpath -ldflags "-w -s -H windowsgui" main.go
       - name: upload windows static binary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
            name: lucky-windows-64bits.exe
            path: lucky-windows-64bits.exe
@@ -37,14 +37,14 @@ jobs:
    build-macos:
       runs-on: macos-latest
       steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
         with:
            go-version: '1.21'
       - name: build macos static binary
         run: go build -o lucky-macos-64bits -trimpath -ldflags "-w -s" main.go
       - name: upload macos static binary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
            name: lucky-macos-64bits
            path: lucky-macos-64bits
