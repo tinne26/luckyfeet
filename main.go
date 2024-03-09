@@ -10,6 +10,9 @@ import "github.com/tinne26/luckyfeet/src/game/material/au"
 import "github.com/tinne26/luckyfeet/src/plumbing/autoconfig"
 import "github.com/tinne26/luckyfeet/src/plumbing/ico"
 
+// WASM compilation on Windows:
+// > $env:GOOS="js"; $env:GOARCH="wasm"; go build -o luckyfeet.wasm -trimpath main.go
+
 //go:embed assets/*
 var filesys embed.FS
 

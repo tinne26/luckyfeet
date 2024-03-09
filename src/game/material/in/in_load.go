@@ -21,6 +21,7 @@ func LoadAndConfigure(kbgp *input.KBGP) error {
 	multi.AddNormalKey(ebiten.KeyTab)
 	multi.AddBreakerKey(ebiten.KeyAltLeft)
 	kbConfig.MapTriggerAction(ActionMenu, multi)
+	kbConfig.MapTriggerActionToKey(ActionMenuBrowserAlt, ebiten.KeyM)
 	kbConfig.MapTriggerAction(ActionBack, input.NewKeyList(ebiten.KeyBackspace, ebiten.KeyEscape))
 	kbConfig.MapTriggerAction(ActionConfirm,
 		input.KeyList([]ebiten.Key{ebiten.KeyEnter, ebiten.KeySpace}),

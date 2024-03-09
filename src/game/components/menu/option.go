@@ -41,6 +41,7 @@ func (self *SceneChangeOption) Name() string { return self.Label }
 func (self *SceneChangeOption) HoverUpdate(ctx *context.Context) {}
 func (self *SceneChangeOption) SoftHighlight(ctx *context.Context) bool { return false }
 func (self *SceneChangeOption) Confirm(ctx *context.Context) (Key, *scene.Change, error) {
+	ctx.Input.Unwind()
 	return NoChange, &self.Change, nil
 }
 
@@ -53,6 +54,7 @@ func (self *SceneChangeEffectOption) Name() string { return self.Label }
 func (self *SceneChangeEffectOption) HoverUpdate(ctx *context.Context) {}
 func (self *SceneChangeEffectOption) SoftHighlight(ctx *context.Context) bool { return false }
 func (self *SceneChangeEffectOption) Confirm(ctx *context.Context) (Key, *scene.Change, error) {
+	ctx.Input.Unwind()
 	return NoChange, &self.Change, self.OnConfirm(ctx)
 }
 

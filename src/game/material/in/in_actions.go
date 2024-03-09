@@ -8,6 +8,7 @@ const (
 	ActionConfirm
 	ActionBack
 	ActionMenu
+	ActionMenuBrowserAlt
 	
 	ActionJump
 	ActionUseCarrot

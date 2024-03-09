@@ -12,6 +12,7 @@ import "github.com/tinne26/luckyfeet/src/game/context"
 import "github.com/tinne26/luckyfeet/src/game/material/in"
 import "github.com/tinne26/luckyfeet/src/game/material/au"
 import "github.com/tinne26/luckyfeet/src/game/material/scene/keys"
+import "github.com/tinne26/luckyfeet/src/game/material/level"
 import "github.com/tinne26/luckyfeet/src/game/components/menu"
 import "github.com/tinne26/luckyfeet/src/game/components/info"
 import "github.com/tinne26/luckyfeet/src/game/components/menuhint"
@@ -72,7 +73,7 @@ func New(ctx *context.Context) (*Play, error) {
 		ctx.State.LoadMapDataFromClipboard = false
 		mapsData = utils.ReadClipboard()
 	} else {
-		mapsData = defaultMapsData
+		mapsData = level.GetData(ctx.State.LevelKey)
 	}
 
 	var mapDatas []string = strings.Split(strings.TrimSpace(mapsData), ".")
@@ -156,7 +157,7 @@ func (self *Play) Update(ctx *context.Context) (*scene.Change, error) {
 		self.controls.Update(ctx)
 	} else {
 		// detect menu opening / closing
-		if ctx.Input.Trigger(in.ActionMenu) {
+		if ctx.Input.Trigger(in.ActionMenu) || ctx.Input.Trigger(in.ActionMenuBrowserAlt) {
 			ctx.Audio.PlaySFX(au.SfxConfirm)
 			self.menu.JumpTo(keyMainMenu)
 			self.menuActive = !self.menuActive

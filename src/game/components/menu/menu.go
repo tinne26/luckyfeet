@@ -28,6 +28,10 @@ type Menu struct {
 	options map[Key]*OptionList
 }
 
+func (self *Menu) Key() Key {
+	return self.key
+}
+
 func (self *Menu) JumpTo(key Key) {
 	self.key = key
 	self.options[key].index = 0

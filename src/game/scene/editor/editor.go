@@ -230,7 +230,7 @@ func (self *Editor) Update(ctx *context.Context) (*scene.Change, error) {
 		self.controls.Update(ctx)
 	} else {
 		// detect menu opening / closing
-		if ctx.Input.Trigger(in.ActionMenu) {
+		if ctx.Input.Trigger(in.ActionMenu) || ctx.Input.Trigger(in.ActionMenuBrowserAlt) {
 			ctx.Audio.PlaySFX(au.SfxConfirm)
 			self.menu.JumpTo(keyMainMenu)
 			self.menuActive = !self.menuActive

@@ -1,9 +1,12 @@
 package state
 
+import "github.com/tinne26/luckyfeet/src/game/material/level"
+
 type State[Context any] struct {
 	LoadMapDataFromClipboard bool
 	PlaytestData string
 	PlaytestMapID uint8
+	LevelKey level.Key
 	Editing bool
 	LastClearTicks int
 }

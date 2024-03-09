@@ -52,6 +52,7 @@ func (self SingleKey) Inputs() []KeyInput {
 var _ KeyboardTrigger = KeyList{}
 type KeyList []ebiten.Key
 
+// Accepts *any* of the given keys as a trigger.
 func NewKeyList(keys ...ebiten.Key) KeyList {
 	return KeyList(keys)
 }

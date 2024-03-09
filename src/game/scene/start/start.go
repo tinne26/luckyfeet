@@ -7,12 +7,15 @@ import "github.com/hajimehoshi/ebiten/v2"
 import "github.com/tinne26/luckyfeet/src/lib/scene"
 import "github.com/tinne26/luckyfeet/src/lib/text"
 
+import "github.com/tinne26/luckyfeet/src/game/material/level"
+import "github.com/tinne26/luckyfeet/src/game/material/au"
 import "github.com/tinne26/luckyfeet/src/game/context"
 import "github.com/tinne26/luckyfeet/src/game/components/back"
 import "github.com/tinne26/luckyfeet/src/game/components/menu"
 import "github.com/tinne26/luckyfeet/src/game/components/info"
 import "github.com/tinne26/luckyfeet/src/game/components/tile"
 import "github.com/tinne26/luckyfeet/src/game/material/scene/keys"
+import "github.com/tinne26/luckyfeet/src/game/utils"
 
 var _ scene.Scene[*context.Context] = (*Start)(nil)
 
@@ -21,12 +24,14 @@ type Start struct {
 	controls *info.Layer
 	menu menu.Menu
 	backMap *tile.Map
+	codes []rune
 }
 
 const (
 	keyMainMenu menu.Key = menu.FirstKey
 	keyEditor   menu.Key = menu.FirstKey + 1
 	keyWonder   menu.Key = menu.FirstKey + 2
+	keyLvlSel   menu.Key = menu.FirstKey + 3
 )
 
 func New(ctx *context.Context) (*Start, error) {
@@ -46,9 +51,27 @@ func New(ctx *context.Context) (*Start, error) {
 	
 	var mainMenu menu.Menu
 	opts := mainMenu.NewOptionList(keyMainMenu)
-	opts.Add(&menu.SceneChangeOption{ Label: "JUMP", Change: *scene.PushTo(keys.Play) })
+	opts.Add(&menu.NavOption{ Label: "JUMP", To: keyLvlSel })
 	opts.Add(&menu.NavOption{ Label: "DIG", To: keyEditor })
 	opts.Add(&menu.NavOption{ Label: "WONDER", To: keyWonder })
+	opts = mainMenu.NewOptionList(keyLvlSel)
+	opts.Add(&menu.SceneChangeEffectOption{
+		Label: "GUIDANCE",
+		Change: *scene.PushTo(keys.Play),
+		OnConfirm: func(fnCtx *context.Context) error {
+			fnCtx.State.LevelKey = level.Guidance
+			return nil
+		},
+	})
+	opts.Add(&menu.SceneChangeEffectOption{
+		Label: "FIRST RACE",
+		Change: *scene.PushTo(keys.Play),
+		OnConfirm: func(fnCtx *context.Context) error {
+			fnCtx.State.LevelKey = level.FirstRace
+			return nil
+		},
+	})
+	opts.AddBackOption(&menu.NavOption{ Label: "BACK", To: keyMainMenu })
 	opts = mainMenu.NewOptionList(keyWonder)
 	opts.Add(&menu.NavOption{ Label: "OPTIONS", To: menu.Options })
 	opts.Add(controls.NewOption("CONTROLS"))
@@ -101,7 +124,21 @@ func (self *Start) Update(ctx *context.Context) (*scene.Change, error) {
 		self.controls.Update(ctx)
 	} else {
 		change, err := self.menu.Update(ctx)
-		if change != nil { self.menu.JumpTo(keyMainMenu) }
+		if change == nil && self.menu.Key() == keyLvlSel {
+			self.codes = ebiten.AppendInputChars(self.codes)
+			self.codes = utils.ClipToLastN(self.codes, 5)
+			if utils.EqualRunes(self.codes, "bunny") {
+				ctx.Audio.PlaySFX(au.SfxConfirm)
+				ctx.State.LevelKey = level.Bunny
+				change = scene.PushTo(keys.Play)
+			}
+		} else {
+			self.codes = self.codes[ : 0]
+		}
+
+		if change != nil {
+			self.menu.JumpTo(keyMainMenu)
+		}
 		return change, err
 	}
 

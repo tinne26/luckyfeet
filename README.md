@@ -1,10 +1,8 @@
 # Lucky Feet
 
-Entry for [Ebitengine's Holiday Hack](https://itch.io/jam/ebitengine-holiday-hack-2023) (December 23rd 2023 to January 15th 2024). Can be played directly on the browser at [tinne26.github.io/luckyfeet](https://tinne26.github.io/luckyfeet) or downloaded through [github releases](https://github.com/tinne26/luckyfeet/releases/tag/v0.0.2). It's also available through [itch.io](https://tinne26.itch.io/luckyfeet).
+Entry for [Ebitengine's Holiday Hack](https://itch.io/jam/ebitengine-holiday-hack-2023) (December 23rd 2023 to January 15th 2024). Can be played directly on the browser at [tinne26.github.io/luckyfeet](https://tinne26.github.io/luckyfeet) or downloaded through [github releases](https://github.com/tinne26/luckyfeet/releases/tag/v0.0.3). It's also available through [itch.io](https://tinne26.itch.io/luckyfeet).
 
 ![cover](https://github.com/tinne26/luckyfeet/assets/95440833/d6a26142-1348-4f53-ab6a-6a35b561aad4)
-
-> I recommend using Chrome and playing the "[better tutorial](https://github.com/tinne26/luckyfeet/tree/main/levels)" level from clipboard to get started with the game; the original first screen can be particularly confusing due to the tic-tac mechanics between layers.
 
 I had trouble with motivation, so I only tried to get something working. I wanted to approach the game making a few design choices intentionally contrary to what I'd normally do... and it's been bad. Single screen platformer, lively tone, flat pixel art, what you see is what it is, etc. It's not bad as "what a terrible game", but the feeling was "I don't want to keep developing this any more".
 
@@ -13,6 +11,8 @@ One might wonder why I'm so dumb, but I train really hard for it.
 # Controls
 
 Gamepad or keyboard (WASD + SPACE + IOP). The controls are more detailed within the game itself, search for it on the menus.
+
+> Since some browsers block TAB for alt tabbing, you can also use M to open/close the menu.
 
 There's a tic-tac mechanic (see parkour). If you are on the main layer (light brown), you can tic-tac on the back layer (gray). If you are on the front layer (dark brown), you can tic-tac on the main layer. You can't go through walls on the same layer, but can go in front/behind other layers.
 
@@ -30,7 +30,3 @@ Code is licensed under the MIT license. Assets are licensed under [CC BY 4.0](ht
 
 - Thanks to [kettek](https://github.com/kettek) for organizing the game jam.
 - As always, thanks to Hajime Hoshi for creating and developing Ebitengine.
-
-# More
-
-Need more? Check some [extra levels](https://github.com/tinne26/luckyfeet/tree/main/levels).
